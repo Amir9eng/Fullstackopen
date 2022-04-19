@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import { createStore } from 'redux'
 import reducer from './reducer'
 
@@ -14,8 +14,8 @@ const App = () => {
 
   return (
     <div>
-      <button onClick={good}>good</button> 
-      <button>ok</button> 
+      <button onClick={good}>good</button>
+      <button>ok</button>
       <button>bad</button>
       <button>reset stats</button>
       <div>good {store.getState().good}</div>
@@ -26,7 +26,7 @@ const App = () => {
 }
 
 const renderApp = () => {
-  ReactDOM.render(<App />, document.getElementById('root'))
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />)
 }
 
 renderApp()
