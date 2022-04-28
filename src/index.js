@@ -25,8 +25,9 @@ const App = () => {
   )
 }
 
+const root = ReactDOM.createRoot(document.getElementById('root'))
 const renderApp = () => {
-  ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+  root.render(<App />)
 }
 
 renderApp()
