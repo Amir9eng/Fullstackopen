@@ -1,0 +1,5 @@
+title Notes (SPA version)
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
+note over browser: SPA renders note list in the browser
