@@ -17,13 +17,28 @@ function App() {
     'Why do we never have time to do it right, but always have time to do it over?.'
   ]
   const [selected, setSelected] = useState(0)
-  const randomNumber = Math.floor(Math.random() * 10)
+  const votesArray = Array(anecdotes.length).fill(0)
+  const [votes, setVotes] = useState(votesArray)
+  const randomNumber =() => Math.floor(Math.random() * 10)
 
+  const handleVotes = () => {
+    const votesPresent = [...votes]
+    votesPresent[selected] += 1
+    setVotes(votesPresent)
+  }
+  const highestVotes = votes.indexOf(Math.max(...votes))
+  
   return <div className="App">
-    <div className="anecdotes">
-    {anecdotes[selected]}
-    </div>
-    <button onClick={() => setSelected(randomNumber)}>next anecdotes</button>
+     {anecdotes[selected]}
+     <p>has {votes[selected]} votes</p>
+    
+    <button onClick={handleVotes}>vote</button>
+    <button onClick={() => setSelected(randomNumber())}>next anecdotes</button>
+    <div>
+        <h1>Anecdotes with most votes</h1>
+        <p>{anecdotes[highestVotes]}</p>
+        <p>has {votes[highestVotes]} votes</p>
+      </div>
   </div>;
 }
 
