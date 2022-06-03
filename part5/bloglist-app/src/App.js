@@ -7,18 +7,18 @@ import loginService from '../../bloglist-app/src/services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 function App () {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [title, setNewTitle] = useState('')
-  const [author, setNewAuthor] = useState('')
-  const [url, setNewUrl] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
-  const [loginVisible, setLoginVisible] = useState(false)
+
+  
+  const blogFormRef = React.useRef(null)
 
   // useEffect(() => {
   //   blogService.getAll().then(blogs => setBlogs(blogs))
@@ -39,7 +39,7 @@ function App () {
 
   const handleLogin = async e => {
     e.preventDefault()
-
+    
     try {
       const user = await loginService.login({
         username,
@@ -61,44 +61,26 @@ function App () {
     e.preventDefault()
     setUser(null)
     window.localStorage.removeItem('loggedBlogAppUser')
-  }
-  const handleUrlChange = e => {
-    setNewUrl(e.target.value)
-  }
-  const handleAuthorChange = e => {
-    setNewAuthor(e.target.value)
-  }
-  const handleTitleChange = e => {
-    setNewTitle(e.target.value)
-  }
-
-  const addBlog = async e => {
-    e.preventDefault()
-    const BlogToAdd = {
-      title: title,
-      author: author,
-      url: url
-    }
-
+  } 
+  const createBlog = async (BlogToAdd) => {
     try {
-      await blogService.create(BlogToAdd)
-      setNewTitle('')
-      setNewAuthor('')
-      setNewUrl('')
-      setSuccessMessage(`Blog ${BlogToAdd.title} was successfully added `)
+      blogFormRef.current.toggleVisibility()
+      blogService.create(BlogToAdd)
+      setSuccessMessage(`Blog ${BlogToAdd.title} was succesfully added`)
       getAllBlogs()
       setErrorMessage(null)
       setTimeout(() => {
         setSuccessMessage(null)
-      }, 5000)
+      }, 5000);
     } catch (exception) {
-      setErrorMessage(`Cannot add blog ${BlogToAdd.title}`)
+      setErrorMessage(`Cannot add Blog ${BlogToAdd.title}`)
       setSuccessMessage(null)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000)
+      }, 5000);
     }
   }
+  console.log(user);
 
   return (
     <div>
@@ -117,19 +99,13 @@ function App () {
       ) : (
         <div>
           <h1>Add new Blog</h1>
-          <BlogForm
-            onSubmit={addBlog}
-            newTitle={title}
-            handleTitleChange={handleTitleChange}
-            newAuthor={author}
-            handleAuthorChange={handleAuthorChange}
-            newUrl={url}
-            handleUrlChange={handleUrlChange}
-          />
           <p>
             {user.name} logged in
             <button onClick={handleLogout}>Logout</button>
           </p>
+          <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
+            <BlogForm createBlog={createBlog} />
+         </Togglable>
           {blogs.map(blog => (
             <Blog key={blog.id} blog={blog} />
           ))}
