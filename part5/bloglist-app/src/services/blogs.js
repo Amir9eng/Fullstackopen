@@ -2,6 +2,7 @@ import axios from 'axios'
 const baseUrl = 'http://localhost:3003/api/blogs'
 
 let token = null
+let config
 
 const setToken = newToken => {
     if (newToken) {
@@ -22,6 +23,15 @@ const getAll = async() => {
     return response.data
 }
 
-const services = { getAll, setToken, create }
+const update = async blogToUpdate => {
+    const response = await axios.put(`${baseUrl}/${blogToUpdate.id}`, blogToUpdate, config)
+    return response.data
+}
+const remove = async id => {
+    const response = await axios.delete(`${baseUrl}/${id}`, config)
+    return response.data
+}
+
+const services = { getAll, setToken, create, update, remove }
 
 export default services

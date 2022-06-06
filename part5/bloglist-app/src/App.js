@@ -34,6 +34,7 @@ function App () {
   }, [])
   const getAllBlogs = async () => {
     const blogs = await blogService.getAll()
+    blogs.sort((a, b) => (a.likes > b.likes) ? -1 :1)
     setBlogs(blogs)
   }
 
@@ -65,9 +66,10 @@ function App () {
   const createBlog = async (BlogToAdd) => {
     try {
       blogFormRef.current.toggleVisibility()
-      blogService.create(BlogToAdd)
+      const createdBlog = await blogService.create(BlogToAdd)
       setSuccessMessage(`Blog ${BlogToAdd.title} was succesfully added`)
-      getAllBlogs()
+      setBlogs(blogs.concat(createdBlog))
+      // getAllBlogs()
       setErrorMessage(null)
       setTimeout(() => {
         setSuccessMessage(null)
@@ -80,8 +82,43 @@ function App () {
       }, 5000);
     }
   }
-  console.log(user);
-
+  const updateBlog = async (BlogToUpdate) => {
+    try {
+      const updatedBlog = await blogService.update(BlogToUpdate)
+      setSuccessMessage(`Blog ${BlogToUpdate.title} was successfully updated`)
+      setBlogs(blogs.map(blog => blog.id !== BlogToUpdate.id ? blog : updatedBlog))
+      setErrorMessage(null)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000);
+    } catch (exception) {
+      setErrorMessage(`Cannot update blog ${BlogToUpdate.title}`)
+      setSuccessMessage(null)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000);
+    }
+ }
+ 
+  const removeBlog = async (BlogToDelete) => {
+    try {
+      if(window.confirm(`Delete ${BlogToDelete.title} ? `)){
+        blogService.remove(BlogToDelete.id)
+        setSuccessMessage(`Blog ${BlogToDelete.title} was successfully deleted`)
+        setBlogs(blogs.filter(blog =>  blog.id !== BlogToDelete.id))
+        setErrorMessage(null)
+        setTimeout(() => {
+         setSuccessMessage(null)
+        }, 5000);
+      }
+    } catch (exception) {
+      setErrorMessage(`Cannot delete blog ${BlogToDelete.title}`)
+      setSuccessMessage(null)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000);
+    }
+  }
   return (
     <div>
       <h2> blogs </h2>
@@ -107,7 +144,7 @@ function App () {
             <BlogForm createBlog={createBlog} />
          </Togglable>
           {blogs.map(blog => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} removeBlog={removeBlog} />
           ))}
         </div>
       )}
