@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types'
+import { PropTypes } from 'prop-types';
 
 const Blog = (props) => {
     const blog = props.blog
@@ -31,7 +31,7 @@ const Blog = (props) => {
         marginBottom: 5
     }
     return ( 
-    <div className = { blogStyle }>
+    <div style= { blogStyle } className= 'blog'>
         <div> 
           { blog.title } - { blog.author } <button onClick={toggleVisibility}>{buttonLabel}</button>
          </div> 
@@ -45,7 +45,10 @@ const Blog = (props) => {
 
 }
 
-
-
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  updateBlog: PropTypes.func.isRequired,
+  removeBlog: PropTypes.func.isRequired
+}
 
 export default Blog
