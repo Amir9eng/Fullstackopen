@@ -22,7 +22,6 @@ const Blog = (props) => {
       setBlogObject(updatedBlog)
     }
     const deleteBlog = () => props.removeBlog(blog)
-
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
