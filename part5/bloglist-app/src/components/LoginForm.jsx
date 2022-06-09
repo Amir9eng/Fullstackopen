@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 
 
 const LoginForm = (props) => {
-  console.log(props.username)
+  // console.log(props.username)
   return(
   <form onSubmit={props.handleLogin} autoComplete='false'>
   <h1>Please Log In </h1>

@@ -1,6 +1,7 @@
 
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
+import userEvent from '@testing-library/user-event'
 import { render, fireEvent, screen  } from '@testing-library/react'
 import Blog from './Blog'
 
@@ -26,7 +27,7 @@ describe('Blog component tests', () => {
 
   test('clicking the view button displays url and number of likes', () => {
     const utils = render(
-      <Blog blog={blog} updateBlog={mockUpdateBlog} removeBlog={mockDeleteBlog} />
+      <Blog blog={blog} updateBlog={mockUpdateBlog} />
     )
 
     const button = screen.getByText('view')
@@ -40,6 +41,23 @@ describe('Blog component tests', () => {
       '7'
     )
   })
+  test('ensures if the like button is clicked twice', async () => {
+   
+    const mockHandler =  jest.fn()
+
+    render(
+      <Blog blog={blog} updateBlog={mockHandler} />
+    )
+    const user = userEvent.setup()
+    const button = screen.getByText('like')
+    await user.click(button)
+    await user.click(button)
+
+  
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
+  })
+  
 })
     
     
