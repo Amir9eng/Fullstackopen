@@ -1,7 +1,7 @@
-import { React } from 'react';
+import { React } from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render, screen } from '@testing-library/react';
-import BlogForm from './BlogForm';
+import { render, screen } from '@testing-library/react'
+import BlogForm from './BlogForm'
 import userEvent from '@testing-library/user-event'
 
 
@@ -10,7 +10,7 @@ test('<BlogForm /> updates parent state and calls onSubmit', async() => {
     const createBlog = jest.fn()
     const user = userEvent.setup()
 
-    // const { container } =
+
     render( <
         BlogForm createBlog = { createBlog }
         />
@@ -20,16 +20,12 @@ test('<BlogForm /> updates parent state and calls onSubmit', async() => {
     const input1 = screen.getByPlaceholderText('author')
     const input2 = screen.getByPlaceholderText('url')
     const send = screen.getByText('Create')
-        // const form = container.querySelector('form')
     await user.type(input, 'Blog title')
     await user.type(input1, 'Blog author')
     await user.type(input2, 'Blog url')
     await user.click(send)
 
-    // fireEvent.change(input, {
-    //         target: { value: 'Go to problem' }
-    //     })
-    // fireEvent.submit(form)
+
 
     expect(createBlog.mock.calls).toHaveLength(1)
     expect(createBlog.mock.calls[0][0].title).toBe('Blog title')

@@ -1,5 +1,5 @@
 import React from 'react'
-import { PropTypes } from 'prop-types';
+import { PropTypes } from 'prop-types'
 
 const error = {
   color: 'red',
@@ -21,18 +21,18 @@ const success = {
   margin_bottom: 10
 }
 
-const Notification = ({errorMessage, successMessage}) => {
+const Notification = ({ errorMessage, successMessage }) => {
   if (successMessage === null && errorMessage === null) {
     return null
   } else if (successMessage){
     return (
-      <div style={success}>
+      <div style={success} id='success'>
         {successMessage}
       </div>
     )
   } else
   return (
-    <div style={error}>
+    <div style={error} id='error'>
       {errorMessage}
     </div>
   )

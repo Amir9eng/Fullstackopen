@@ -1,5 +1,5 @@
 import React from 'react'
-import { PropTypes } from 'prop-types';
+import { PropTypes } from 'prop-types'
 
 
 const LoginForm = (props) => {
@@ -9,21 +9,22 @@ const LoginForm = (props) => {
   <h1>Please Log In </h1>
   <label>
       <p>Username</p>
-      <input type="text" 
+      <input type="text"
+      id='username'
       value={props.username}
       name='Username'
       onChange={({ target }) => props.setUsername(target.value)} autoComplete='none' />
     </label>
     <label>
       <p>Password</p>
-      <input type="password" value={props.password}
+      <input type="password" id='password'  value={props.password}
       name='Password'
       onChange={({ target }) => props.setPassword(target.value)}   autoComplete='none' />
     </label>
-    <button type='submit'> login </button>
+    <button type='submit' id='login-button'> login </button>
 </form>)
 }
- 
+
 LoginForm.propTypes= {
   handleLogin: PropTypes.func.isRequired,
   setUsername: PropTypes.func.isRequired,

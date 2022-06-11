@@ -17,12 +17,10 @@ function App () {
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
 
-  
+
   const blogFormRef = React.useRef(null)
 
-  // useEffect(() => {
-  //   blogService.getAll().then(blogs => setBlogs(blogs))
-  // }, [])
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
@@ -40,7 +38,7 @@ function App () {
 
   const handleLogin = async e => {
     e.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username,
@@ -62,7 +60,7 @@ function App () {
     e.preventDefault()
     setUser(null)
     window.localStorage.removeItem('loggedBlogAppUser')
-  } 
+  }
   const createBlog = async (BlogToAdd) => {
     try {
       blogFormRef.current.toggleVisibility()
@@ -73,13 +71,13 @@ function App () {
       setErrorMessage(null)
       setTimeout(() => {
         setSuccessMessage(null)
-      }, 5000);
+      }, 5000)
     } catch (exception) {
       setErrorMessage(`Cannot add Blog ${BlogToAdd.title}`)
       setSuccessMessage(null)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
+      }, 5000)
     }
   }
   const updateBlog = async (BlogToUpdate) => {
@@ -90,16 +88,16 @@ function App () {
       setErrorMessage(null)
       setTimeout(() => {
         setSuccessMessage(null)
-      }, 5000);
+      }, 5000)
     } catch (exception) {
       setErrorMessage(`Cannot update blog ${BlogToUpdate.title}`)
       setSuccessMessage(null)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
+      }, 5000)
     }
- }
- 
+  }
+
   const removeBlog = async (BlogToDelete) => {
     try {
       if(window.confirm(`Delete ${BlogToDelete.title} ? `)){
@@ -108,20 +106,20 @@ function App () {
         setBlogs(blogs.filter(blog =>  blog.id !== BlogToDelete.id))
         setErrorMessage(null)
         setTimeout(() => {
-         setSuccessMessage(null)
-        }, 5000);
+          setSuccessMessage(null)
+        }, 5000)
       }
     } catch (exception) {
       setErrorMessage(`Cannot delete blog ${BlogToDelete.title}`)
       setSuccessMessage(null)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
+      }, 5000)
     }
   }
   return (
     <div>
-      <h2> blogs </h2>
+      <h2> Blogs </h2>
       <Notification errorMessage={errorMessage} successMessage={successMessage} />
       {user === null ? (
         <>
@@ -131,23 +129,24 @@ function App () {
             setPassword={setPassword}
             setUsername={setUsername}
             handleLogin={handleLogin}
-          /> 
+          />
         </>
       ) : (
         <div>
           <h1>Add new Blog</h1>
           <p>
             {user.name} logged in
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout} id='logout-button'>Logout</button>
           </p>
           <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />
-         </Togglable>
+          </Togglable>
           {blogs.map(blog => (
             <Blog key={blog.id} blog={blog} updateBlog={updateBlog} removeBlog={removeBlog} />
           ))}
         </div>
       )}
+      <footer>Blog App, Fullstackopen 2022</footer>
     </div>
   )
 }
