@@ -133,7 +133,7 @@ function App () {
         </>
       ) : (
         <div>
-          <h1>Add new Blog</h1>
+          <h1>Add new Blog here</h1>
           <p>
             {user.name} logged in
             <button onClick={handleLogout} id='logout-button'>Logout</button>
