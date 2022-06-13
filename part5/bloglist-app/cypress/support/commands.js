@@ -1,29 +1,3 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... }
-
 Cypress.Commands.add('login', ({ username, password }) => {
     cy.request('POST', 'http://localhost:3003/api/login', {
         username,
@@ -33,3 +7,30 @@ Cypress.Commands.add('login', ({ username, password }) => {
         cy.visit('http://localhost:3000')
     })
 })
+
+
+// it('a user can like a blog',  function() {
+// cy.get('#title').type('End to End testing')
+// cy.get('#author').type('Neil Armstrong')
+// cy.get('#url').type('https://unwritten-record.blogs.archives.gov/tag/neil-armstrong/')
+// cy.contains('Create').click()
+// cy.contains('End to End testing - Neil Armstrong')
+// cy.contains('view').click()
+// cy.contains('0')
+// cy.get('#like-button').click()
+// cy.contains('1')
+// })
+
+// it('user who created a blog to delete it', function() {
+// cy.get('#title').type('End to End testing')
+// cy.get('#author').type('Neil Armstrong')
+// cy.get('#url').type('https://unwritten-record.blogs.archives.gov/tag/neil-armstrong/')
+// cy.contains('Create').click()
+// cy.contains('Neil Armstrong - End to End testing')
+// cy.contains('view').click()
+// cy.get('#remove').click()
+// cy.get('html').should('not-contain', 'End to End testing - Neil Armstrong')
+// })
+
+
+// })
