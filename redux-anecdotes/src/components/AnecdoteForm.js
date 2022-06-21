@@ -15,7 +15,7 @@ const AnecdoteForm = () => {
         dispatch({type: 'notification/createNotification', payload: `Anecdote was successfully created`})
         setTimeout(() => {
             dispatch({type: 'notification/createNotifcation', payload: null})
-        }, 5000)
+        }, 2000)
     }
 
 
