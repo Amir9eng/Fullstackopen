@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const anecdotesAtStart = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',
@@ -18,59 +20,105 @@ const asObject = (anecdote) => {
 }
 
 
+
 const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (state = initialState, action) => {
-    console.log('state now: ', state)
-    console.log('action', action)
+const anecdotesSlice = createSlice({
+    name: 'anecdotes',
+    initialState,
+    reducers: {
+        createAnecdotes(state, action) {
+            const anecdote = action.payload
+            console.log('state now: ', state)
+            console.log('action', action)
+            state.push({
+                content: anecdote,
+                id: getId(),
+                votes: 0
+            })
+        },
+        voteAnecdotes(state, action) {
 
-    switch (action.type) {
-        case 'ANECDOTE':
-            const anecdote = action.data
-            return state.concat(anecdote)
-        case 'VOTE':
-            const id = action.data.id
+            const id = action.payload
+            console.log('state now: ', state)
+            console.log('action', action)
             const anecdoteToVote = state.find(anecdote => anecdote.id === id)
+            console.log(anecdoteToVote)
             const voteAnecdotes = {
                 ...anecdoteToVote,
                 votes: anecdoteToVote.votes + 1
             }
             return state.map(anecdote => anecdote.id !== id ? anecdote : voteAnecdotes).sort((a, b) => b.votes - a.votes)
-
-        case 'UNVOTE':
-            const unvoteId = action.data.id
+        },
+        unVoteAnecdotes(state, action) {
+            const unvoteId = action.payload
+            console.log(unvoteId)
+            console.log('state now: ', state)
+            console.log('action', action)
             const toUnvote = state.find(anecdote => anecdote.id === unvoteId)
             const unvoteAnecdotes = {
                 ...toUnvote,
                 votes: toUnvote.votes - 1
-
             }
             return state.map(anecdote => anecdote.id !== unvoteId ? anecdote : unvoteAnecdotes).sort((a, b) => b.votes - a.votes)
-
-        default:
-            return state
+        }
     }
-}
 
-export const addNewAnecdote = (anecdote) => {
-    return {
-        type: 'ANECDOTE',
-        data: asObject(anecdote)
-    }
-}
+})
 
-export const increaseVotes = (id) => {
-    return {
-        type: 'VOTE',
-        data: { id }
-    }
-}
 
-export const decreaseVotes = (id) => {
-    return {
-        type: 'UNVOTE',
-        data: { id }
-    }
-}
+// const anecdotesReducer = (state = initialState, action) => {
+//     console.log('state now: ', state)
+//     console.log('action', action)
 
-export default reducer
+//     switch (action.type) {
+//         case 'ANECDOTE':
+//             const anecdote = action.data
+//             console.log(anecdote)
+//             return state.concat(anecdote)
+//         case 'VOTE':
+//             const id = action.data.id
+//             const anecdoteToVote = state.find(anecdote => anecdote.id === id)
+//             const voteAnecdotes = {
+//                 ...anecdoteToVote,
+//                 votes: anecdoteToVote.votes + 1
+//             }
+//             return state.map(anecdote => anecdote.id !== id ? anecdote : voteAnecdotes).sort((a, b) => b.votes - a.votes)
+
+//         case 'UNVOTE':
+//             const unvoteId = action.data.id
+//             const toUnvote = state.find(anecdote => anecdote.id === unvoteId)
+//             const unvoteAnecdotes = {
+//                 ...toUnvote,
+//                 votes: toUnvote.votes - 1
+
+//             }
+//             return state.map(anecdote => anecdote.id !== unvoteId ? anecdote : unvoteAnecdotes).sort((a, b) => b.votes - a.votes)
+
+//         default:
+//             return state
+//     }
+// }
+
+// export const addNewAnecdote = (anecdote) => {
+//     return {
+//         type: 'ANECDOTE',
+//         data: asObject(anecdote)
+//     }
+// }
+
+// export const increaseVotes = (id) => {
+//     return {
+//         type: 'VOTE',
+//         data: { id }
+//     }
+// }
+
+// export const decreaseVotes = (id) => {
+//     return {
+//         type: 'UNVOTE',
+//         data: { id }
+//     }
+// }
+export const { createAnecdotes, voteAnecdotes, unVoteAnecdotes } = anecdotesSlice.actions
+export default anecdotesSlice.reducer
