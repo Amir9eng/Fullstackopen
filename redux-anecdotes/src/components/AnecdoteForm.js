@@ -1,7 +1,6 @@
 import { React } from 'react';
 import { useDispatch } from 'react-redux';
 import { createAnecdote } from '../reducers/anecdoteReducer';
-import { createNew } from '../services/anecdotes';
 
 const AnecdoteForm = () => {
     const dispatch = useDispatch()
@@ -9,11 +8,10 @@ const AnecdoteForm = () => {
 
     const newAnecdotes = async (e) => {
         e.preventDefault()
-        const anecdote = e.target.newAnecdote.value
+        const anecdote = e.target.anecdote.value
         console.log(anecdote)
-        e.target.newAnecdote.value = '';
-        const newAnecdote = await createNew(anecdote)
-        dispatch(createAnecdote(newAnecdote))
+        e.target.anecdote.value = '';
+        dispatch(createAnecdote(anecdote))
         dispatch({type: 'notification/createNotification', payload: `Anecdote was successfully created`})
         setTimeout(() => {
             dispatch({type: 'notification/createNotifcation', payload: null})
@@ -23,7 +21,7 @@ const AnecdoteForm = () => {
 
     return ( <div>
         <h2>create new</h2> <form onSubmit = { newAnecdotes } >
-        <div><input name = 'newAnecdote' /></div><button type = 'submit'>create</button> 
+        <div><input name = 'anecdote' /></div><button type = 'submit'>create</button> 
         </form> </div>
     )
 }

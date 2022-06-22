@@ -6,14 +6,6 @@ import { getAll } from '../services/anecdotes'
 
 
 
-
-
-// const reducer = combineReducers({
-//     anecdotes: anecdotesReducer,
-//     notification: notificationReducer,
-//     filter: filterReducer
-// })
-
 getAll().then(anecdotes =>
     store.dispatch(setAnecdotes(anecdotes)))
 
