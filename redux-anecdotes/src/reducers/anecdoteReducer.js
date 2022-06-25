@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { createNew, getAll } from '../services/anecdotes'
+import { create, degrade, getAll, update } from '../services/anecdotes'
 
 
 
@@ -10,29 +10,21 @@ const anecdotesSlice = createSlice({
         // createAnecdote(state, action) {
         //     state.push(action.payload)
         // },
-        voteAnecdotes(state, action) {
-
-            const id = action.payload
+        addVote(state, action) {
+            const votedAnecdote = action.payload
+            const id = action.payload.id
             console.log('state now: ', state)
             console.log('action', action)
-            const anecdoteToVote = state.find(anecdote => anecdote.id === id)
-            console.log(anecdoteToVote)
-            const voteAnecdotes = {
-                ...anecdoteToVote,
-                votes: anecdoteToVote.votes + 1
-            }
-            return state.map(anecdote => anecdote.id !== id ? anecdote : voteAnecdotes).sort((a, b) => b.votes - a.votes)
+                // const anecdoteToVote = state.find(anecdote => anecdote.id === id)
+                // console.log(anecdoteToVote)
+            return state.map(anecdote => anecdote.id !== id ? anecdote : votedAnecdote).sort((a, b) => b.votes - a.votes)
         },
-        unVoteAnecdotes(state, action) {
-            const unvoteId = action.payload
-            console.log(unvoteId)
+        reduceVote(state, action) {
+            const unvoteAnecdotes = action.payload
+            const unvoteId = action.payload.id
             console.log('state now: ', state)
             console.log('action', action)
-            const toUnvote = state.find(anecdote => anecdote.id === unvoteId)
-            const unvoteAnecdotes = {
-                ...toUnvote,
-                votes: toUnvote.votes - 1
-            }
+                // const toUnvote = state.find(anecdote => anecdote.id === unvoteId
             return state.map(anecdote => anecdote.id !== unvoteId ? anecdote : unvoteAnecdotes).sort((a, b) => b.votes - a.votes)
         },
         appendAnecdotes(state, action) {
@@ -44,7 +36,7 @@ const anecdotesSlice = createSlice({
     }
 
 })
-export const {  voteAnecdotes, unVoteAnecdotes, appendAnecdotes, setAnecdotes } = anecdotesSlice.actions
+export const { addVote, reduceVote, appendAnecdotes, setAnecdotes } = anecdotesSlice.actions
 
 export const initializeAnecdotes = () => {
     return async dispatch => {
@@ -55,8 +47,27 @@ export const initializeAnecdotes = () => {
 
 export const createAnecdote = (content) => {
     return async dispatch => {
-        const newAnecdote = await createNew(content)
+        const newAnecdote = await create(content)
         dispatch(appendAnecdotes(newAnecdote))
+    }
+}
+
+export const voteAnecdote = (anecdote) => {
+
+
+    console.log(anecdote, 'from vote')
+    return async dispatch => {
+        const votedAnecdote = await update(anecdote)
+        dispatch(addVote(votedAnecdote))
+    }
+}
+
+export const unvoteAnecdote = (anecdote) => {
+
+    console.log(anecdote, 'from unvote')
+    return async dispatch => {
+        const unvotedAnecdote = await degrade(anecdote)
+        dispatch(reduceVote(unvotedAnecdote))
     }
 }
 
