@@ -11,13 +11,13 @@ const AnecdoteForm = (props) => {
         e.preventDefault()
         const anecdote = e.target.anecdote.value
         console.log(anecdote)
-        if(anecdote == '') {
+        if(anecdote === '') {
             alert('input field is required')
         return
      } 
         e.target.anecdote.value = '';
         props.createAnecdote(anecdote)
-        props.setNotification(`${anecdote} was succesfully created`, 3000)
+        props.setNotification(`${anecdote} was succesfully created`, 1000)
     }
 
 
