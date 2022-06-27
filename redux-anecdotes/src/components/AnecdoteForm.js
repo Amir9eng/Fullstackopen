@@ -1,21 +1,23 @@
 import { React } from 'react';
-import { useDispatch } from 'react-redux';
 import { createAnecdote } from '../reducers/anecdoteReducer';
+import { connect } from 'react-redux';
+import { setNotification } from '../reducers/notificationReducer';
 
-const AnecdoteForm = () => {
-    const dispatch = useDispatch()
 
+const AnecdoteForm = (props) => {
 
+    console.log(props)
     const newAnecdotes = async (e) => {
         e.preventDefault()
         const anecdote = e.target.anecdote.value
         console.log(anecdote)
+        if(anecdote == '') {
+            alert('input field is required')
+        return
+     } 
         e.target.anecdote.value = '';
-        dispatch(createAnecdote(anecdote))
-        dispatch({type: 'notification/createNotification', payload: `Anecdote was successfully created`})
-        setTimeout(() => {
-            dispatch({type: 'notification/createNotifcation', payload: null})
-        }, 2000)
+        props.createAnecdote(anecdote)
+        props.setNotification(`${anecdote} was succesfully created`, 3000)
     }
 
 
@@ -26,4 +28,17 @@ const AnecdoteForm = () => {
     )
 }
 
-export default AnecdoteForm
+const mapStatetoProps = (state) => {
+    return {
+        anecdotes: state.anecdotes
+    }
+}
+
+const mapDispatchtoProps = {
+    createAnecdote,
+    setNotification
+}
+const ConnectedAnecdoteForm = connect(mapStatetoProps, mapDispatchtoProps)(AnecdoteForm)
+
+
+export default ConnectedAnecdoteForm
