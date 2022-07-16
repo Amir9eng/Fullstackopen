@@ -1,4 +1,6 @@
 import blogService from "../services/blogs"
+import { setNotification } from "./notificationReducer"
+
 
 const blogReducer = (state = [], action) => {
 
@@ -45,7 +47,7 @@ export const createBlog = (content) => {
                 data: newBlog
             })
         } catch (exception) {
-            console.log('error')
+            dispatch(setNotification(`could not create blog`, 'error', 3))
         }
     }
 }
@@ -59,7 +61,7 @@ export const deleteBlog = (id) => {
                 data: id
             })
         } catch (exception) {
-            console.log('blog cannot be deleted')
+            dispatch(setNotification(`Blog cannot be deleted`, 'error', 3))
 
         }
     }
@@ -78,7 +80,7 @@ export const like = (blog) => {
                 data: likedBlog
             })
         } catch (exception) {
-            console.log('blog cannot be liked')
+            dispatch(setNotification(`could not like blog${blog.title}`, 'error', 3))
         }
     }
 }
