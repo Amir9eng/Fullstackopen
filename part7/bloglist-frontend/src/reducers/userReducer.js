@@ -9,6 +9,9 @@ const userReducer = (state = null, action) => {
     switch (action.type) {
         case 'INIT_ALL_USERS':
             return action.user
+
+        case 'SET_USER':
+            return action.data
         default:
             return state;
     }
@@ -26,6 +29,19 @@ export const initializeAllUsers = () => {
             data: users
         }
     }
+}
+
+export const setUser = () => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON)
+        blogService.setToken(user.token)
+        return {
+            type: 'SET_USER',
+            data: user
+        }
+    }
+    return { type: 'LOGOUT' }
 }
 
 // export const login = (username, password) => {
