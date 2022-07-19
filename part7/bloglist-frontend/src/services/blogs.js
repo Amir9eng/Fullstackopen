@@ -16,6 +16,11 @@ const getAll = () => {
     const request = axios.get(baseUrl)
     return request.then((response) => response.data)
 }
+const comment = (comment) => {
+    const { id, text } = comment
+    const response = axios.post(`${baseUrl}/${id}`, { text })
+    return response.data
+}
 
 const create = async(newObject) => {
     const config = {
@@ -40,6 +45,6 @@ const deleteBlog = async(id) => {
     return request.then((response) => response.data)
 }
 
-const blogService = { setToken, getUserInfo, getAll, create, update, deleteBlog }
+const blogService = { setToken, getUserInfo, getAll, create, update, deleteBlog, comment }
 
 export default blogService

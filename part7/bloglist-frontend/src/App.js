@@ -3,7 +3,7 @@ import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
-import loginService from './services/login'
+// import loginService from './services/login'
 import Notification from './components/Notification'
 import './App.css'
 import Togglable from './components/Togglable'
@@ -17,8 +17,8 @@ const App = () => {
   const blogs = useSelector(state => state.blogs)
   // const [user, setUser] = useState(null)
   const user = useSelector((state) => state.user)
-  // const [message, setMessage] = useState(null)
-  const message = useSelector(state => state.message)
+  const [message, setMessage] = useState(null) 
+  // const message = useSelector(state => state.message)
 
   const blogFormRef = React.createRef()
 
